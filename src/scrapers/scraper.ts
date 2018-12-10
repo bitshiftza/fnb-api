@@ -1,40 +1,76 @@
 import moment, { Moment } from 'moment';
 import { launch, Browser, Page } from 'puppeteer';
 import { ApiOptions } from '../api/fnb-api';
-import { Account, DetailedBalance, AccountType, Transaction } from '../models';
+import { Account } from '../models/account';
 import scrapeAccounts from './scrape-accounts';
-import scrapeDetailedBalance from './scrape-detailed-balance';
-import scrapeTransactions from './scrape-transactions';
+import { scrapeDetailedBalance, DetailedBalanceResponse } from './scrape-detailed-balance';
+import { scrapeTransactions, TransactionsResponse } from './scrape-transactions';
+import { Cache } from './cache';
 
 export class Scraper {
 	private _loginDate: Moment | undefined;
 	private _options: ApiOptions;
 	private _browser: Browser | undefined;
 	private _page: Page | undefined;
+	private _cache: Cache;
 
 	constructor(options: ApiOptions) {
 		this._options = options;
+		this._cache = new Cache(options);
 	}
 
 	public async accounts(): Promise<Account[]> {
 		const page = await this._getLoggedInPage();
-		return await scrapeAccounts(page);
+
+		if (this._options.cache === true) {
+			const existing = this._cache.getAccounts();
+			if (existing) {
+				return existing;
+			}
+		}
+
+		const accounts = await scrapeAccounts(page);
+		if (this._options.cache === true) {
+			this._cache.setAccounts(accounts);
+		}
+
+		return accounts;
 	}
 
-	public async detailedBalance(account: Account): Promise<{
-		balance: DetailedBalance,
-		accountType: AccountType
-	}> {
+	public async detailedBalance(account: Account): Promise<DetailedBalanceResponse> {
 		const page = await this._getLoggedInPage();
-		return await scrapeDetailedBalance(page, account);
+
+		if (this._options.cache === true) {
+			const existing = this._cache.getDetailedBalance(account);
+			if (existing) {
+				return existing;
+			}
+		}
+
+		const detailedBalance = await scrapeDetailedBalance(page, account);
+		if (this._options.cache === true) {
+			this._cache.setDetailedBalance(account, detailedBalance);
+		}
+
+		return detailedBalance;
 	}
 
-	public async transactions(account: Account): Promise<{
-		transactions: Transaction[],
-		accountType: AccountType
-	}> {
+	public async transactions(account: Account): Promise<TransactionsResponse> {
 		const page = await this._getLoggedInPage();
-		return await scrapeTransactions(page, account);
+
+		if (this._options.cache === true) {
+			const existing = this._cache.getTransactions(account);
+			if (existing) {
+				return existing;
+			}
+		}
+
+		const transactions = await scrapeTransactions(page, account);
+		if (this._options.cache === true) {
+			this._cache.setTransactions(account, transactions);
+		}
+
+		return transactions;
 	}
 
 	public async close() {

@@ -6,6 +6,11 @@ import { DetailedBalance } from '../models/detailed-balance';
 import { DetailedBalanceCheque, DetailedBalanceCredit, DetailedBalanceChequeInitData, DetailedBalanceSavings } from '../models';
 import moment from 'moment';
 
+export interface DetailedBalanceResponse {
+	balance: DetailedBalance;
+	accountType: AccountType;
+}
+
 function getAccountType(text: string) {
 	if (text.indexOf('Cheque') !== -1) {
 		return AccountType.Cheque;
@@ -107,7 +112,7 @@ const scrapeCredit = async (page: Page): Promise<DetailedBalanceCredit> => {
 	});
 };
 
-export default async (page: Page, account: Account) => {
+export const scrapeDetailedBalance = async (page: Page, account: Account): Promise<DetailedBalanceResponse> => {
 	await navigateToAccount(page, account, 'Detailed');
 
 	const accountTypeString = await page.evaluate(() => $('.dlTitle:contains("Type") + div').text().trim());

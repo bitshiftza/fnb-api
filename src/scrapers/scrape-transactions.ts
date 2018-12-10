@@ -9,6 +9,11 @@ import { TransactionCredit } from '../models/transaction-credit';
 import { TransactionStatus } from '../models/transaction-status';
 import moment from 'moment';
 
+export interface TransactionsResponse {
+	transactions: Transaction[];
+	accountType: AccountType;
+}
+
 function getAccountType(text: string) {
 	if (text.indexOf('Cheque') !== -1) {
 		return AccountType.Cheque;
@@ -107,7 +112,7 @@ const scrapeCredit = async (page: Page): Promise<TransactionCredit[]> => {
 	}));
 };
 
-export default async (page: Page, account: Account) => {
+export const scrapeTransactions = async (page: Page, account: Account): Promise<TransactionsResponse> => {
 	await navigateToAccount(page, account, 'Transaction');
 
 	const accountTypeString = await page.evaluate(() => $('.dlTitle:contains("Type") + div').text().trim());

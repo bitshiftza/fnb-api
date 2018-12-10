@@ -1,8 +1,10 @@
 # FNB API
 
-Pull acount balances and transactions from FNB online banking.
+Pull account balances and transactions from FNB online banking.
 
-**NOTE: Create a read-only secondary user on FNBs online banking site when using this.**
+# Security
+
+When using this, it's recommended to create a read-only secondary user on FNBs online banking site.
 
 ## Installation
 

@@ -1,5 +1,5 @@
 require('dotenv').config();
-const FnbApi = require('../dist/src/index.js').Api;
+const FnbApi = require('../dist/index.js').Api;
 
 (async () => {
 	const api = new FnbApi({

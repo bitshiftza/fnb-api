@@ -106,4 +106,4 @@ TransactionCheque {
 
 ## License
 
-GNU GPL v3
+See [LICENSE](LICENSE)

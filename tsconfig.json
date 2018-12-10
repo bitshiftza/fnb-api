@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "diagnostics": true,
+    "downlevelIteration": false,
+    "lib": [
+      "es6",
+      "es2017",
+      "dom"
+    ],
+    "module": "commonjs",
+    "noEmitOnError": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": true,
+    "pretty": true,
+    "skipLibCheck": true,
+    "strictPropertyInitialization": true,
+    "strictNullChecks": true,
+    "target": "es5",
+    "declaration": true,
+    "rootDir": ".",
+    "outDir": "./dist",
+    "moduleResolution": "node",
+    "esModuleInterop": true
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules"
+  ]
+}

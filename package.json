@@ -1,0 +1,37 @@
+{
+  "name": "fnb-api",
+  "version": "1.0.0",
+  "description": "API to easily access bank data from FNB",
+  "main": "dist/src/index.js",
+  "typings": "dist/src/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "clear && tsc && clear && node test/index.js",
+    "publish": "tsc && npm publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bitshiftza/fnb-api.git"
+  },
+  "author": "bitshiftza",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/bitshiftza/fnb-api/issues"
+  },
+  "homepage": "https://github.com/bitshiftza/fnb-api#readme",
+  "keywords": [
+    "FNB",
+    "First National Bank",
+    "API"
+  ],
+  "dependencies": {
+    "moment": "^2.22.2",
+    "puppeteer": "^1.11.0"
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.3.22",
+    "@types/puppeteer": "^1.10.1",
+    "dotenv": "^6.2.0",
+    "typescript": "^3.2.2"
+  }
+}

@@ -2,7 +2,7 @@
 
 Pull account balances and transactions from FNB online banking.
 
-# Security
+## Security
 
 When using this, it's recommended to create a read-only secondary user on FNBs online banking site.
 

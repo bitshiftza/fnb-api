@@ -1,6 +1,6 @@
 {
   "name": "fnb-api",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "API to easily access bank data from FNB",
   "main": "dist/src/index.js",
   "typings": "dist/src/index.d.ts",

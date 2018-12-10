@@ -1,6 +1,8 @@
-.gitignore
 .git/
-.editorconfig
 src/
+test/
+.env
 .tsconfig.json
 .tslint.json
+.editorconfig
+.gitignore

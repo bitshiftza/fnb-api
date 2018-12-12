@@ -54,7 +54,7 @@ const FnbApi = require('fnb-api').Api;
     name: 'Savings Account',
     accountNumber: 'XXX',
     balance: 1000000,
-	availableBalance: 1000000 } ]
+    availableBalance: 1000000 } ]
 	
 DetailedBalanceCheque {
   balance: 1000000,

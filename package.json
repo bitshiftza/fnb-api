@@ -6,8 +6,7 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "clear && tsc && clear && node test/index.js",
-    "publish": "tsc && npm publish"
+    "test": "clear && tsc && clear && node test/index.js"
   },
   "repository": {
     "type": "git",

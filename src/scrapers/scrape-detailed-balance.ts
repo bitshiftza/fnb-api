@@ -12,7 +12,7 @@ export interface DetailedBalanceResponse {
 }
 
 function getAccountType(text: string) {
-	if (text.indexOf('Cheque') !== -1) {
+	if (text.indexOf('Cheque') !== -1 || text.indexOf('Business Account') !== -1) {
 		return AccountType.Cheque;
 	}
 

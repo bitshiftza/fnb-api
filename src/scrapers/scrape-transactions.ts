@@ -15,7 +15,7 @@ export interface TransactionsResponse {
 }
 
 function getAccountType(text: string) {
-	if (text.indexOf('Cheque') !== -1) {
+	if (text.indexOf('Cheque') !== -1 || text.indexOf('Business Account') !== -1) {
 		return AccountType.Cheque;
 	}
 
@@ -70,7 +70,7 @@ async function scrapeChequeOrSavings<T extends TransactionChequeInitData>(page: 
 		amount: cleanNumber(x.amount),
 		balance: cleanNumber(x.balance),
 		status: TransactionStatus.Successful
-	}));
+	}) as T);
 }
 
 const scrapeCheque = async (page: Page): Promise<TransactionCheque[]> => {

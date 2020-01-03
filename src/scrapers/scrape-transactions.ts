@@ -1,6 +1,7 @@
 import { Page } from 'puppeteer';
 import { Account } from '../models/account';
 import { AccountType } from '../models/account-type';
+import { getAccountType } from './scrape-util';
 import { navigateToAccount } from './navigator';
 import { Transaction } from '../models/transaction';
 import { TransactionCheque, TransactionChequeInitData } from '../models/transaction-cheque';
@@ -9,25 +10,10 @@ import { TransactionCredit } from '../models/transaction-credit';
 import { TransactionStatus } from '../models/transaction-status';
 import moment from 'moment';
 
+
 export interface TransactionsResponse {
 	transactions: Transaction[];
 	accountType: AccountType;
-}
-
-function getAccountType(text: string) {
-	if (text.indexOf('Cheque') !== -1 || text.indexOf('Business Account') !== -1) {
-		return AccountType.Cheque;
-	}
-
-	if (text.indexOf('Credit') !== -1) {
-		return AccountType.Credit;
-	}
-
-	if (text.indexOf('Savings') !== -1) {
-		return AccountType.Savings;
-	}
-
-	return AccountType.Other;
 }
 
 function cleanNumber(text: string) {

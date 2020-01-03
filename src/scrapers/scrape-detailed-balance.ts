@@ -1,6 +1,7 @@
 import { Page } from 'puppeteer';
 import { Account } from '../models/account';
 import { AccountType } from '../models/account-type';
+import { getAccountType } from './scrape-util';
 import { navigateToAccount } from './navigator';
 import { DetailedBalance } from '../models/detailed-balance';
 import { DetailedBalanceCheque, DetailedBalanceCredit, DetailedBalanceChequeInitData, DetailedBalanceSavings } from '../models';
@@ -9,22 +10,6 @@ import moment from 'moment';
 export interface DetailedBalanceResponse {
 	balance: DetailedBalance;
 	accountType: AccountType;
-}
-
-function getAccountType(text: string) {
-	if (text.indexOf('Cheque') !== -1 || text.indexOf('Business Account') !== -1) {
-		return AccountType.Cheque;
-	}
-
-	if (text.indexOf('Credit') !== -1) {
-		return AccountType.Credit;
-	}
-
-	if (text.indexOf('Savings') !== -1) {
-		return AccountType.Savings;
-	}
-
-	return AccountType.Other;
 }
 
 const scrapeChequeOrSavings = async (page: Page): Promise<DetailedBalanceChequeInitData> => {

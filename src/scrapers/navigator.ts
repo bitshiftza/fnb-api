@@ -28,24 +28,24 @@ export const navigateToMyBankAccounts = async (page: Page) => {
 
 export const navigateToAccount = async (page: Page, account: Account, tab: string) => {
 	await navigateToMyBankAccounts(page);
-	const indexOfAccount = await page.evaluate((acc: Account) => {
+	const accountId = await page.evaluate((acc: Account) => {
 
 		var names = $('[name="nickname"]');
 		for (var i = 0; i < names.length; i++) {
 			var accountName = (names[i].textContent || '').replace(/[\n\t]+/, '').replace(/[\n\t]+/, '').trim();
 			if (accountName === acc.name) {
-				return i;
+				return names[i].id;
 			}
 		}
 
 		return null;
 	}, account as unknown as SerializableOrJSHandle);
 
-	if (indexOfAccount === null) {
+	if (accountId === null) {
 		throw new Error('Could not find account to navigate to');
 	}
 
-	await page.click(`#nickname_${indexOfAccount} a`);
+	await page.click(`#${accountId} a`);
 	await page.waitForFunction(() => $('#loaderOverlay.Hhide').length > 0);
 
 	const indexOfTab = await page.evaluate((text: string) => {

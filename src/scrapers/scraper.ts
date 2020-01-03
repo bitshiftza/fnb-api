@@ -121,6 +121,9 @@ export class Scraper {
 			throw new Error('Login failed. Please check your credentials');
 		}
 
+		await this._page.waitForFunction(() => !!document.querySelector('#loaderOverlay.overlayContainer.Hhide'));
+		await this._page.waitForFunction(() => document.getElementsByClassName('footerBtn').length > 0 || !!document.getElementById('newsLanding'));
+
 		const hasFooterButton = await this._page.evaluate(() => document.getElementsByClassName('footerBtn').length > 0);
 		if (hasFooterButton) {
 			await this._clickFooterButton();

@@ -24,13 +24,13 @@
     "API"
   ],
   "dependencies": {
-    "moment": "^2.22.2",
-    "puppeteer": "^1.11.0"
+    "moment": "^2.24.0",
+    "puppeteer": "^2.1.1"
   },
   "devDependencies": {
-    "@types/jquery": "^3.3.22",
-    "@types/puppeteer": "^1.10.1",
-    "dotenv": "^6.2.0",
-    "typescript": "^3.2.2"
+    "@types/jquery": "^3.3.32",
+    "@types/puppeteer": "^2.0.0",
+    "dotenv": "^8.2.0",
+    "typescript": "^3.7.5"
   }
 }

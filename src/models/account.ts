@@ -9,6 +9,8 @@ import { DetailedBalanceCheque } from './detailed-balance-cheque';
 import { TransactionCheque } from './transaction-cheque';
 import { DetailedBalanceCredit } from './detailed-balance-credit';
 import { TransactionCredit } from './transaction-credit';
+import { DetailedBalanceVehicle } from './detailed-balance-vehicle';
+import { TransactionVehicle } from './transaction-vehicle';
 
 export interface AccountInitData {
 	name: string;
@@ -81,3 +83,4 @@ export class Account<TBalance extends DetailedBalance = DetailedBalance, TTransa
 export type AccountCheque = Account<DetailedBalanceCheque, TransactionCheque>;
 export type AccountCredit = Account<DetailedBalanceCredit, TransactionCredit>;
 export type AccountSavings = Account<DetailedBalanceSavings, TransactionSavings>;
+export type AccountVehicle = Account<DetailedBalanceVehicle, TransactionVehicle>;

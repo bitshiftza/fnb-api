@@ -1,92 +1,18 @@
 import { Page } from 'puppeteer';
 import { Account } from '../models/account';
 import { AccountType } from '../models/account-type';
-import { getAccountType, evaluateAccountType } from './scrape-util';
+import { evaluateAccountType } from './scrape-util';
 import { navigateToAccount } from './navigator';
 import { DetailedBalance } from '../models/detailed-balance';
-import { DetailedBalanceCheque, DetailedBalanceCredit, DetailedBalanceChequeInitData, DetailedBalanceSavings } from '../models';
-import moment from 'moment';
+import { scrapeCredit } from './scrape-detailed-balance-credit';
+import { scrapeCheque } from './scrape-detailed-balance-cheque';
+import { scrapeSavings } from './scrape-detailed-balance-savings';
+import { scrapeVehicle } from './scrape-detailed-balance-vehicle';
 
 export interface DetailedBalanceResponse {
 	balance: DetailedBalance;
 	accountType: AccountType;
 }
-
-const scrapeChequeOrSavings = async (page: Page): Promise<DetailedBalanceChequeInitData> => {
-	const getValueForRowAndCell = async (row: number, cell: number, element: number) => {
-		/* tslint:disable */
-		function cleanNumber(text: string) {
-			var amount: string = text.replace(/\s+/, '').replace('R', '').replace(',', '').replace('eB', '');
-			var num: number = parseInt(Math.round(parseFloat(amount) * 100) as any, 10);
-			return num;
-		}
-
-		const val = `h3:contains("Account Details") + .formTable .tableRow:nth-child(${row}) .tableCell:nth-child(${cell}) .tableCellItem:last-child()`;
-		return cleanNumber(await page.evaluate((toEval: string, index: number) => $(toEval)[index].innerText.trim(), val, element));
-		/* tslint:enable */
-	};
-
-	const balance = await (getValueForRowAndCell(1, 1, 0));
-	const minimumBalance = await (getValueForRowAndCell(1, 2, 0));
-	const reservedFunds = await (getValueForRowAndCell(2, 1, 0));
-	const pendingDebits = await (getValueForRowAndCell(2, 2, 0));
-	const pendingCredits = await (getValueForRowAndCell(3, 1, 0));
-	const outstandingDebitCardAuthorization = await (getValueForRowAndCell(3, 2, 0));
-	const chargesAccrued = await (getValueForRowAndCell(3, 1, 1));
-	const availableBalance = await (getValueForRowAndCell(3, 1, 2));
-
-	return {
-		balance,
-		minimumBalance,
-		reservedFunds,
-		pendingDebits,
-		pendingCredits,
-		outstandingDebitCardAuthorization,
-		chargesAccrued,
-		availableBalance
-	};
-};
-
-const scrapeCheque = async (page: Page): Promise<DetailedBalanceCheque> => {
-	return new DetailedBalanceCheque(await scrapeChequeOrSavings(page));
-};
-
-const scrapeSavings = async (page: Page): Promise<DetailedBalanceSavings> => {
-	return new DetailedBalanceSavings(await scrapeChequeOrSavings(page));
-};
-
-const scrapeCredit = async (page: Page): Promise<DetailedBalanceCredit> => {
-	const getValueForRow = async (row: number) => {
-		/* tslint:disable */
-		function cleanNumber(text: string) {
-			var amount: string = text.replace(/\s+/, '').replace('R', '').replace(',', '').replace('eB', '');
-			var num: number = parseInt(Math.round(parseFloat(amount) * 100) as any, 10);
-			return num;
-		}
-
-		const val = `h3:contains("Detailed Balance Details") + .formTable .tableRow:nth-child(${row}) .tableCell:nth-child(2) .tableCellItem:last-child()`;
-		return cleanNumber(await page.evaluate((toEval: string) => $(toEval)[0].innerText.trim(), val));
-		/* tslint:enable */
-	};
-
-	const availableCredit = await getValueForRow(1);
-	const currentBalance = await getValueForRow(2);
-	const minimumRequiredPayment = await getValueForRow(3);
-	const budgetBalance = await getValueForRow(4);
-	const budgetAvailable = await getValueForRow(5);
-	const outstandingAuthorisationNormal = await getValueForRow(6);
-	const outstandingAuthorisationBudget = await getValueForRow(7);
-
-	return new DetailedBalanceCredit({
-		availableCredit,
-		currentBalance,
-		minimumRequiredPayment,
-		budgetBalance,
-		budgetAvailable,
-		outstandingAuthorisationNormal,
-		outstandingAuthorisationBudget
-	});
-};
 
 export const scrapeDetailedBalance = async (page: Page, account: Account): Promise<DetailedBalanceResponse> => {
 	await navigateToAccount(page, account, 'Detailed');
@@ -103,6 +29,9 @@ export const scrapeDetailedBalance = async (page: Page, account: Account): Promi
 			break;
 		case AccountType.Savings:
 			promise = scrapeSavings(page);
+			break;
+		case AccountType.Vehicle:
+			promise = scrapeVehicle(page);
 			break;
 		default:
 			promise = Promise.resolve({});

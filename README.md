@@ -2,14 +2,23 @@
 
 Pull account balances and transactions from FNB online banking.
 
+## Support
+### Basic Balances
+Basic balances are supported for cheque, credit, savings, eBucks and vehicle accounts.
+### Detailed Balances
+Basic balances are supported for cheque, credit, savings and vehicle accounts.
+### Transactions
+Currently only cheque, credit and savings account transactions are supported.
+> *Note*: Only the first page (150 entries) of successful transactions are scraped.
+
 ## Security
 
-When using this, it's recommended to create a read-only secondary user on FNBs online banking site.
+When using this, it's recommended to create a read-only secondary user on FNBs online banking site. See [this](https://conversations.22seven.com/hc/en-us/articles/360016980233-Setting-up-an-FNB-view-only-profile) guide for instructions.
 
 ## Installation
 
 ```bash
-npm install fnb-api
+npm i -S fnb-api
 ```
 
 ## Usage
@@ -38,8 +47,8 @@ const FnbApi = require('fnb-api').Api;
 ```
 
 ```js
-// All monetary values are multiplied by 100
-// ie R100,23 will be represented as 10023
+// All monetary and percent values are multiplied by 100
+// ie R100,23 will be represented as 10023 and 9.75% will be represented as 975
 [ Account {
     name: 'FNB XXX Cheque Account',
     accountNumber: 'XXX',
@@ -97,12 +106,6 @@ TransactionCheque {
   puppeteerOptions?: PuppeteerLaunchOptions;
 }
 ```
-
-
-## Limitations
-
-1. Currently only cheque, credit and savings account balances and transactions are supported.
-2. Only the first page (150 entries) of successful transactions are scraped.
 
 ## License
 

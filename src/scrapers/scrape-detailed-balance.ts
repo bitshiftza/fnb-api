@@ -1,7 +1,7 @@
 import { Page } from 'puppeteer';
 import { Account } from '../models/account';
 import { AccountType } from '../models/account-type';
-import { getAccountType } from './scrape-util';
+import { getAccountType, evaluateAccountType } from './scrape-util';
 import { navigateToAccount } from './navigator';
 import { DetailedBalance } from '../models/detailed-balance';
 import { DetailedBalanceCheque, DetailedBalanceCredit, DetailedBalanceChequeInitData, DetailedBalanceSavings } from '../models';
@@ -90,9 +90,7 @@ const scrapeCredit = async (page: Page): Promise<DetailedBalanceCredit> => {
 
 export const scrapeDetailedBalance = async (page: Page, account: Account): Promise<DetailedBalanceResponse> => {
 	await navigateToAccount(page, account, 'Detailed');
-
-	const accountTypeString = await page.evaluate(() => $('.dlTitle:contains("Type") + div').text().trim());
-	const accountType = getAccountType(accountTypeString);
+	const accountType = await evaluateAccountType(page);
 
 	let promise: Promise<DetailedBalance>;
 

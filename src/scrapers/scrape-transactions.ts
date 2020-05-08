@@ -1,7 +1,7 @@
 import { Page } from 'puppeteer';
 import { Account } from '../models/account';
 import { AccountType } from '../models/account-type';
-import { getAccountType } from './scrape-util';
+import { getAccountType, evaluateAccountType } from './scrape-util';
 import { navigateToAccount } from './navigator';
 import { Transaction } from '../models/transaction';
 import { TransactionCheque, TransactionChequeInitData } from '../models/transaction-cheque';
@@ -100,9 +100,7 @@ const scrapeCredit = async (page: Page): Promise<TransactionCredit[]> => {
 
 export const scrapeTransactions = async (page: Page, account: Account): Promise<TransactionsResponse> => {
 	await navigateToAccount(page, account, 'Transaction');
-
-	const accountTypeString = await page.evaluate(() => $('.dlTitle:contains("Type") + div').text().trim());
-	const accountType = getAccountType(accountTypeString);
+	const accountType = await evaluateAccountType(page);
 
 	let promise: Promise<Transaction[]>;
 

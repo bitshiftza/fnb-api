@@ -5,7 +5,7 @@
     "max-classes-per-file": false,
     "member-access": false,
     "max-line-length": {
-      "options": [240]
+      "options": [160]
     },
     "quotemark": [true, "single"],
     "ordered-imports": false,

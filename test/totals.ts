@@ -1,5 +1,19 @@
 require('dotenv').config()
-import { Api, Account, groupAccounts, DetailedBalance, AccountCheque, DetailedBalanceCheque, AccountCredit, DetailedBalanceCredit, DetailedBalanceSavings, AccountSavings, AccountVehicle, DetailedBalanceVehicle, formatMoney } from '../src'
+import {
+	Api,
+	Account,
+	groupAccounts,
+	DetailedBalance,
+	AccountCheque,
+	DetailedBalanceCheque,
+	AccountCredit,
+	DetailedBalanceCredit,
+	DetailedBalanceSavings,
+	AccountSavings,
+	AccountVehicle,
+	DetailedBalanceVehicle,
+	formatMoney,
+} from '../src'
 
 async function getTotal<A extends Account, B extends DetailedBalance>(accounts: A[], selector: (t: B) => number) {
 	return (
@@ -12,7 +26,7 @@ async function getTotal<A extends Account, B extends DetailedBalance>(accounts: 
 	).reduce((a, b) => a + b, 0)
 }
 
-(async () => {
+;(async () => {
 	const api = new Api({
 		username: process.env.FNB_USER as string,
 		password: process.env.FNB_PASS as string,

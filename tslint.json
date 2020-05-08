@@ -1,35 +1,30 @@
 {
-  "extends": "tslint:recommended",
+  "extends": ["tslint:recommended", "tslint-config-prettier"],
   "rules": {
-      "no-bitwise": true,
-      "max-classes-per-file": false,
-      "member-access": false,
-      "max-line-length": {
-          "options": [
-              240
-          ]
-      },
-      "no-unused-variable": true,
-      "quotemark": [
-          true,
-          "single"
-      ],
-      "ordered-imports": false,
-      "eofline": false,
-      "interface-name": false,
-      "object-literal-sort-keys": false,
-      "trailing-comma": false,
-      "no-trailing-whitespace": false,
-      "no-console": false,
-      "arrow-parens": false,
-      "no-empty": false,
-      "no-empty-interface": false,
-      "variable-name": false,
-      "no-string-literal": false,
-      "member-ordering": false,
-      "forin": false,
-      "adjacent-overload-signatures": false,
-      "indent": [true, "tabs", 4],
-      "no-var-requires": false
+    "no-bitwise": true,
+    "max-classes-per-file": false,
+    "member-access": false,
+    "max-line-length": {
+      "options": [240]
+    },
+    "quotemark": [true, "single"],
+    "ordered-imports": false,
+    "eofline": false,
+    "interface-name": false,
+    "object-literal-sort-keys": false,
+    "trailing-comma": false,
+    "no-trailing-whitespace": false,
+    "no-console": false,
+    "arrow-parens": false,
+    "no-empty": false,
+    "no-empty-interface": false,
+    "variable-name": false,
+    "no-string-literal": false,
+    "member-ordering": false,
+    "forin": false,
+    "adjacent-overload-signatures": false,
+    "indent": [true, "tabs", 4],
+    "no-var-requires": false,
+    "semicolon": [true, "never"]
   }
 }

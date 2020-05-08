@@ -1,25 +1,25 @@
-import { Page } from 'puppeteer';
-import { Account } from '../models/account';
-import { AccountType } from '../models/account-type';
-import { getAccountType, evaluateAccountType } from './scrape-util';
-import { navigateToAccount } from './navigator';
-import { Transaction } from '../models/transaction';
-import { TransactionCheque, TransactionChequeInitData } from '../models/transaction-cheque';
-import { TransactionSavings, TransactionSavingsInitData } from '../models/transaction-savings';
-import { TransactionCredit } from '../models/transaction-credit';
-import { TransactionStatus } from '../models/transaction-status';
-import moment from 'moment';
+import { Page } from 'puppeteer'
+import { Account } from '../models/account'
+import { AccountType } from '../models/account-type'
+import { evaluateAccountType } from './scrape-util'
+import { navigateToAccount } from './navigator'
+import { Transaction } from '../models/transaction'
+import { TransactionCheque, TransactionChequeInitData } from '../models/transaction-cheque'
+import { TransactionSavings, TransactionSavingsInitData } from '../models/transaction-savings'
+import { TransactionCredit } from '../models/transaction-credit'
+import { TransactionStatus } from '../models/transaction-status'
+import moment from 'moment'
 
 
 export interface TransactionsResponse {
-	transactions: Transaction[];
-	accountType: AccountType;
+	transactions: Transaction[]
+	accountType: AccountType
 }
 
 function cleanNumber(text: string) {
-	const amount: string = text.replace(/\s+/, '').replace('R', '').replace(',', '').replace('eB', '');
-	const num: number = parseInt(Math.round(parseFloat(amount) * 100) as any, 10);
-	return num;
+	const amount: string = text.replace(/\s+/, '').replace('R', '').replace(',', '').replace('eB', '')
+	const num: number = parseInt(Math.round(parseFloat(amount) * 100) as any, 10)
+	return num
 }
 
 async function scrapeChequeOrSavings<T extends TransactionChequeInitData>(page: Page): Promise<T[]> {
@@ -46,7 +46,7 @@ async function scrapeChequeOrSavings<T extends TransactionChequeInitData>(page: 
 
 		return data;
 		/* tslint:enable */
-	});
+	})
 
 	return rows.map((x: any) => ({
 		date: moment(x.date, 'DD MMM YYYY'),
@@ -56,16 +56,16 @@ async function scrapeChequeOrSavings<T extends TransactionChequeInitData>(page: 
 		amount: cleanNumber(x.amount),
 		balance: cleanNumber(x.balance),
 		status: TransactionStatus.Successful
-	}) as T);
+	}) as T)
 }
 
 const scrapeCheque = async (page: Page): Promise<TransactionCheque[]> => {
-	return (await scrapeChequeOrSavings<TransactionChequeInitData>(page)).map(x => new TransactionCheque(x));
-};
+	return (await scrapeChequeOrSavings<TransactionChequeInitData>(page)).map(x => new TransactionCheque(x))
+}
 
 const scrapeSavings = async (page: Page): Promise<TransactionSavings[]> => {
-	return (await scrapeChequeOrSavings<TransactionSavingsInitData>(page)).map(x => new TransactionSavings(x));
-};
+	return (await scrapeChequeOrSavings<TransactionSavingsInitData>(page)).map(x => new TransactionSavings(x))
+}
 
 const scrapeCredit = async (page: Page): Promise<TransactionCredit[]> => {
 	const rows = await page.evaluate(() => {
@@ -88,41 +88,41 @@ const scrapeCredit = async (page: Page): Promise<TransactionCredit[]> => {
 
 		return data;
 		/* tslint:enable */
-	});
+	})
 
 	return rows.map((x: any) => new TransactionCredit({
 		date: moment(x.date, 'DD MMM YYYY'),
 		description: x.description,
 		amount: cleanNumber(x.amount),
 		status: TransactionStatus.Successful
-	}));
-};
+	}))
+}
 
 export const scrapeTransactions = async (page: Page, account: Account): Promise<TransactionsResponse> => {
-	await navigateToAccount(page, account, 'Transaction');
-	const accountType = await evaluateAccountType(page);
+	await navigateToAccount(page, account, 'Transaction')
+	const accountType = await evaluateAccountType(page)
 
-	let promise: Promise<Transaction[]>;
+	let promise: Promise<Transaction[]>
 
 	switch (accountType) {
 		case AccountType.Cheque:
-			promise = scrapeCheque(page);
-			break;
+			promise = scrapeCheque(page)
+			break
 		case AccountType.Credit:
-			promise = scrapeCredit(page);
-			break;
+			promise = scrapeCredit(page)
+			break
 		case AccountType.Savings:
-			promise = scrapeSavings(page);
-			break;
+			promise = scrapeSavings(page)
+			break
 		default:
-			promise = Promise.resolve([]);
-			break;
+			promise = Promise.resolve([])
+			break
 	}
 
-	const transactions = await promise;
+	const transactions = await promise
 
 	return {
 		transactions,
 		accountType
-	};
-};
+	}
+}

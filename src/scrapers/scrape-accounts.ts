@@ -1,9 +1,9 @@
-import { Page } from 'puppeteer';
-import { Account, AccountInitData } from '../models/account';
-import { navigateToMyBankAccounts } from './navigator';
+import { Page } from 'puppeteer'
+import { Account, AccountInitData } from '../models/account'
+import { navigateToMyBankAccounts } from './navigator'
 
 export default async (page: Page) => {
-	await navigateToMyBankAccounts(page);
+	await navigateToMyBankAccounts(page)
 
 	const accounts: AccountInitData[] = await page.evaluate(() => {
 		/* tslint:disable */
@@ -38,7 +38,7 @@ export default async (page: Page) => {
 
 		return accounts;
 		/* tslint:enable */
-	});
+	})
 
-	return accounts.map(x => new Account(x));
-};
+	return accounts.map(x => new Account(x))
+}

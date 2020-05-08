@@ -1,2 +1,2 @@
-export * from './scraper';
-export * from './scraper-factory';
+export * from './scraper'
+export * from './scraper-factory'

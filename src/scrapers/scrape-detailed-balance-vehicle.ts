@@ -1,6 +1,6 @@
-import { Page } from 'puppeteer';
-import moment from 'moment';
-import { DetailedBalanceVehicle } from '../models';
+import { Page } from 'puppeteer'
+import moment from 'moment'
+import { DetailedBalanceVehicle } from '../models'
 
 export const scrapeVehicle = async (page: Page): Promise<DetailedBalanceVehicle> => {
 	const getTextForRow = async (rowTitle: string) => {
@@ -16,12 +16,12 @@ export const scrapeVehicle = async (page: Page): Promise<DetailedBalanceVehicle>
 			return elem[0].innerText.trim()
 		}, val);
 		/* tslint:enable */
-	};
+	}
 
 	const toCurrency = (text: string) => {
-		var amount: string = text.replace(/\s+/, '').replace('R', '').replace(',', '').replace('eB', '');
-		var num: number = parseInt(Math.round(parseFloat(amount) * 100) as any, 10);
-		return num;
+		const amount: string = text.replace(/\s+/, '').replace('R', '').replace(',', '').replace('eB', '')
+		const num: number = parseInt(Math.round(parseFloat(amount) * 100) as any, 10)
+		return num
 	}
 
 	return new DetailedBalanceVehicle({
@@ -45,9 +45,9 @@ export const scrapeVehicle = async (page: Page): Promise<DetailedBalanceVehicle>
 		},
 		instalmentDetails: {
 			currentInstalmentAmount: toCurrency(await getTextForRow('Current Instalment Amount')),
-			dateOfNextInstalment: moment(await getTextForRow('Date of Next Instalment'), "DD MMM YYYY"),
-			previousInstalmentDate: moment(await getTextForRow('Previous Instalment Date'), "DD MMM YYYY"),
-			finalInstalmentDate: moment(await getTextForRow('Final Instalment Date'), "DD MMM YYYY")
+			dateOfNextInstalment: moment(await getTextForRow('Date of Next Instalment'), 'DD MMM YYYY'),
+			previousInstalmentDate: moment(await getTextForRow('Previous Instalment Date'), 'DD MMM YYYY'),
+			finalInstalmentDate: moment(await getTextForRow('Final Instalment Date'), 'DD MMM YYYY')
 		},
 		assetDetails: {
 			description: await getTextForRow('Asset Description'),
@@ -63,5 +63,5 @@ export const scrapeVehicle = async (page: Page): Promise<DetailedBalanceVehicle>
 			branchCode: await getTextForRow('Branch Code'),
 			accountNumber: await getTextForRow('Account Number'),
 		}
-	});
-};
+	})
+}

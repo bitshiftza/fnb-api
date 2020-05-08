@@ -1,2 +1,2 @@
-export * from './fnb-api';
-export * from './account-loader';
+export * from './fnb-api'
+export * from './account-loader'

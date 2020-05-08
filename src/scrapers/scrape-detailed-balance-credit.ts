@@ -1,5 +1,5 @@
-import { Page } from 'puppeteer';
-import { DetailedBalanceCredit } from '../models';
+import { Page } from 'puppeteer'
+import { DetailedBalanceCredit } from '../models'
 
 export const scrapeCredit = async (page: Page): Promise<DetailedBalanceCredit> => {
 	const getValueForRow = async (row: number) => {
@@ -13,15 +13,15 @@ export const scrapeCredit = async (page: Page): Promise<DetailedBalanceCredit> =
 		const val = `h3:contains("Detailed Balance Details") + .formTable .tableRow:nth-child(${row}) .tableCell:nth-child(2) .tableCellItem:last-child()`;
 		return cleanNumber(await page.evaluate((toEval: string) => $(toEval)[0].innerText.trim(), val));
 		/* tslint:enable */
-	};
+	}
 
-	const availableCredit = await getValueForRow(1);
-	const currentBalance = await getValueForRow(2);
-	const minimumRequiredPayment = await getValueForRow(3);
-	const budgetBalance = await getValueForRow(4);
-	const budgetAvailable = await getValueForRow(5);
-	const outstandingAuthorisationNormal = await getValueForRow(6);
-	const outstandingAuthorisationBudget = await getValueForRow(7);
+	const availableCredit = await getValueForRow(1)
+	const currentBalance = await getValueForRow(2)
+	const minimumRequiredPayment = await getValueForRow(3)
+	const budgetBalance = await getValueForRow(4)
+	const budgetAvailable = await getValueForRow(5)
+	const outstandingAuthorisationNormal = await getValueForRow(6)
+	const outstandingAuthorisationBudget = await getValueForRow(7)
 
 	return new DetailedBalanceCredit({
 		availableCredit,
@@ -31,5 +31,5 @@ export const scrapeCredit = async (page: Page): Promise<DetailedBalanceCredit> =
 		budgetAvailable,
 		outstandingAuthorisationNormal,
 		outstandingAuthorisationBudget
-	});
-};
+	})
+}

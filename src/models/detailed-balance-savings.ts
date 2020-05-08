@@ -1,4 +1,4 @@
-import { DetailedBalanceCheque } from './detailed-balance-cheque';
+import { DetailedBalanceCheque } from './detailed-balance-cheque'
 
 export interface DetailedBalanceSavingsInitData {
 }

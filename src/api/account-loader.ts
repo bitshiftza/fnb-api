@@ -1,12 +1,12 @@
-import { Account } from '../models';
-import { Scraper } from '../scrapers';
+import { Account } from '../models'
+import { Scraper } from '../scrapers'
 
 /** Proxy for fetching a list of accounts. */
 export class AccountLoader {
-	private _scraper: Scraper;
+	private _scraper: Scraper
 
 	constructor(scraper: Scraper) {
-		this._scraper = scraper;
+		this._scraper = scraper
 	}
 
 	/** 
@@ -14,6 +14,6 @@ export class AccountLoader {
 	 * @see Account
 	 */
 	public get(): Promise<Account[]> {
-		return this._scraper.accounts();
+		return this._scraper.accounts()
 	}
 }

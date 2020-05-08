@@ -1,5 +1,5 @@
-import { Page, SerializableOrJSHandle } from 'puppeteer';
-import { Account } from '../models/account';
+import { Page, SerializableOrJSHandle } from 'puppeteer'
+import { Account } from '../models/account'
 
 export const navigateToMyBankAccounts = async (page: Page) => {
 	const indexOfTab = await page.evaluate(() => {
@@ -15,38 +15,40 @@ export const navigateToMyBankAccounts = async (page: Page) => {
 
 		return index;
 		/* tslint:enable */
-	});
+	})
 
 	if (indexOfTab === null) {
-		throw new Error('Could not find tab to navigate to my tabs');
+		throw new Error('Could not find tab to navigate to my tabs')
 	}
 
-	await page.click(`.shortCutLink:nth-child(${indexOfTab + 1})`);
-	await page.waitForFunction(() => $('#loaderOverlay.Hhide').length > 0);
-	await page.waitForFunction(() => $('#summary_of_account_balances').length > 0);
-};
+	await page.click(`.shortCutLink:nth-child(${indexOfTab + 1})`)
+	await page.waitForFunction(() => $('#loaderOverlay.Hhide').length > 0)
+	await page.waitForFunction(() => $('#summary_of_account_balances').length > 0)
+}
 
 export const navigateToAccount = async (page: Page, account: Account, tab: string) => {
-	await navigateToMyBankAccounts(page);
+	await navigateToMyBankAccounts(page)
 	const accountId = await page.evaluate((acc: Account) => {
 
-		var names = $('[name="nickname"]');
-		for (var i = 0; i < names.length; i++) {
-			var accountName = (names[i].textContent || '').replace(/[\n\t]+/, '').replace(/[\n\t]+/, '').trim();
+		/* tslint:disable */
+		const names = $('[name="nickname"]');
+		for (let i = 0; i < names.length; i++) {
+			const accountName = (names[i].textContent || '').replace(/[\n\t]+/, '').replace(/[\n\t]+/, '').trim();
 			if (accountName === acc.name) {
 				return names[i].id;
 			}
 		}
+		/* tslint:enable */
 
-		return null;
-	}, account as unknown as SerializableOrJSHandle);
+		return null
+	}, account as unknown as SerializableOrJSHandle)
 
 	if (accountId === null) {
-		throw new Error('Could not find account to navigate to');
+		throw new Error('Could not find account to navigate to')
 	}
 
-	await page.click(`#${accountId} a`);
-	await page.waitForFunction(() => $('#loaderOverlay.Hhide').length > 0);
+	await page.click(`#${accountId} a`)
+	await page.waitForFunction(() => $('#loaderOverlay.Hhide').length > 0)
 
 	const indexOfTab = await page.evaluate((text: string) => {
 		/* tslint:disable */
@@ -60,12 +62,12 @@ export const navigateToAccount = async (page: Page, account: Account, tab: strin
 
 		return null;
 		/* tslint:enable */
-	}, tab);
+	}, tab)
 
 	if (indexOfTab === null) {
-		throw new Error('Could not find detailed balance tab to navigate to');
+		throw new Error('Could not find detailed balance tab to navigate to')
 	}
 
-	await page.click(`.subTabButton:nth-child(${indexOfTab + 1})`);
-	await page.waitForFunction(() => $('#loaderOverlay.Hhide').length > 0);
-};
+	await page.click(`.subTabButton:nth-child(${indexOfTab + 1})`)
+	await page.waitForFunction(() => $('#loaderOverlay.Hhide').length > 0)
+}

@@ -69,27 +69,18 @@ const scrapeCredit = async (page: Page): Promise<DetailedBalanceCredit> => {
 		/* tslint:enable */
 	};
 
-	const getValueForRowString = async (row: number) => {
-		/* tslint:disable */
-		const val = `h3:contains("Detailed Balance Details") + .formTable .tableRow:nth-child(${row}) .tableCell:nth-child(2) .tableCellItem:last-child()`;
-		return await page.evaluate((toEval: string) => $(toEval)[0].innerText.trim(), val);
-		/* tslint:enable */
-	};
-
 	const availableCredit = await getValueForRow(1);
 	const currentBalance = await getValueForRow(2);
 	const minimumRequiredPayment = await getValueForRow(3);
-	const minimumRequiredPaymentDueDate = moment(await getValueForRowString(4), 'DD MMM YYYY');
-	const budgetBalance = await getValueForRow(5);
-	const budgetAvailable = await getValueForRow(6);
-	const outstandingAuthorisationNormal = await getValueForRow(7);
-	const outstandingAuthorisationBudget = await getValueForRow(8);
+	const budgetBalance = await getValueForRow(4);
+	const budgetAvailable = await getValueForRow(5);
+	const outstandingAuthorisationNormal = await getValueForRow(6);
+	const outstandingAuthorisationBudget = await getValueForRow(7);
 
 	return new DetailedBalanceCredit({
 		availableCredit,
 		currentBalance,
 		minimumRequiredPayment,
-		minimumRequiredPaymentDueDate,
 		budgetBalance,
 		budgetAvailable,
 		outstandingAuthorisationNormal,

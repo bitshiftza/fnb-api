@@ -5,7 +5,6 @@ export interface DetailedBalanceCreditInitData {
 	availableCredit: number;
 	currentBalance: number;
 	minimumRequiredPayment: number;
-	minimumRequiredPaymentDueDate: Moment;
 	budgetBalance: number;
 	budgetAvailable: number;
 	outstandingAuthorisationNormal: number;
@@ -17,7 +16,6 @@ export class DetailedBalanceCredit implements DetailedBalance {
 	public readonly availableCredit: number;
 	public readonly currentBalance: number;
 	public readonly minimumRequiredPayment: number;
-	public readonly minimumRequiredPaymentDueDate: Moment;
 	public readonly budgetBalance: number;
 	public readonly budgetAvailable: number;
 	public readonly outstandingAuthorisationNormal: number;
@@ -27,7 +25,6 @@ export class DetailedBalanceCredit implements DetailedBalance {
 		this.availableCredit = init.availableCredit;
 		this.currentBalance = init.currentBalance;
 		this.minimumRequiredPayment = init.minimumRequiredPayment;
-		this.minimumRequiredPaymentDueDate = init.minimumRequiredPaymentDueDate;
 		this.budgetBalance = init.budgetBalance;
 		this.budgetAvailable = init.budgetAvailable;
 		this.outstandingAuthorisationNormal = init.outstandingAuthorisationNormal;

@@ -1,12 +1,12 @@
 {
   "name": "fnb-api",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "API to easily access bank data from FNB",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "npx tsc",
-    "test": "clear && npx ts-node --project tsconfig.test.json ./test/index.ts"
+    "build": "tsc",
+    "test": "clear && ts-node --project tsconfig.test.json ./test/index.ts"
   },
   "repository": {
     "type": "git",

@@ -18,10 +18,10 @@ export const scrapeCredit = async (page: Page): Promise<DetailedBalanceCredit> =
 	const availableCredit = await getValueForRow(1)
 	const currentBalance = await getValueForRow(2)
 	const minimumRequiredPayment = await getValueForRow(3)
-	const budgetBalance = await getValueForRow(4)
-	const budgetAvailable = await getValueForRow(5)
-	const outstandingAuthorisationNormal = await getValueForRow(6)
-	const outstandingAuthorisationBudget = await getValueForRow(7)
+	const budgetBalance = await getValueForRow(5)
+	const budgetAvailable = await getValueForRow(6)
+	const outstandingAuthorisationNormal = await getValueForRow(7)
+	const outstandingAuthorisationBudget = await getValueForRow(8)
 
 	return new DetailedBalanceCredit({
 		availableCredit,

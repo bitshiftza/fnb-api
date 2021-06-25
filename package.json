@@ -6,7 +6,8 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "clear && ts-node --project tsconfig.test.json ./test/index.ts"
+    "test": "clear && ts-node --project tsconfig.test.json ./test/index.ts",
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",

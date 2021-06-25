@@ -2,7 +2,7 @@ import { AccountType } from '../models/account-type'
 import { Page } from 'puppeteer'
 
 export const getAccountType = (text: string, hasEngineNumber: boolean) => {
-	if (text.indexOf('Cheque') !== -1 || text.indexOf('Business Account') !== -1 || text.indexOf('Fusion') !== -1) {
+	if (text.indexOf('Cheque') !== -1 || text.indexOf('Business Account') !== -1 || text.indexOf('Fusion') !== -1 || text.indexOf('Current') !== -1) {
 		return AccountType.Cheque
 	}
 

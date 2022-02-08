@@ -112,6 +112,7 @@ export const scrapeTransactions = async (page: Page, account: Account): Promise<
 			promise = scrapeCredit(page)
 			break
 		case AccountType.Savings:
+		case AccountType.Easy:
 			promise = scrapeSavings(page)
 			break
 		default:

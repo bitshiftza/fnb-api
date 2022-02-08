@@ -28,6 +28,7 @@ export const scrapeDetailedBalance = async (page: Page, account: Account): Promi
 			promise = scrapeCredit(page)
 			break
 		case AccountType.Savings:
+		case AccountType.Easy:
 			promise = scrapeSavings(page)
 			break
 		case AccountType.Vehicle:

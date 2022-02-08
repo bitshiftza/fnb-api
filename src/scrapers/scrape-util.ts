@@ -14,6 +14,10 @@ export const getAccountType = (text: string, hasEngineNumber: boolean) => {
 		return AccountType.Savings
 	}
 
+	if (text.indexOf('Easy Account') !== -1) {
+		return AccountType.Easy
+	}
+
 	if(text.indexOf('eBucks') !== -1) {
 		return AccountType.eBucks
 	}

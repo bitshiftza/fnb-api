@@ -26,6 +26,7 @@ export async function groupAccounts(accounts: Account[]) {
 		grouped.creditAccounts.push(account as AccountCredit)
 		break
 		case AccountType.Savings:
+		case AccountType.Easy:
 		grouped.savingsAccounts.push(account as AccountSavings)
 		break
 		case AccountType.Vehicle:

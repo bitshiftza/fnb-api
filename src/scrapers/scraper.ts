@@ -114,6 +114,7 @@ export class Scraper {
 		await this._page.waitForFunction(() =>
 			!!document.getElementById('newsLanding') ||
 			document.getElementsByClassName('footerBtn').length !== 0 ||
+			!!document.getElementById('gotItButtonBtn') ||
 			$('.loginPanel.overlayPanelHide').length > 0)
 
 		const loginFailed = await this._page.evaluate(() => $('.loginPanel.overlayPanelHide').length === 0)
@@ -122,11 +123,16 @@ export class Scraper {
 		}
 
 		await this._page.waitForFunction(() => !!document.querySelector('#loaderOverlay.overlayContainer.Hhide'))
-		await this._page.waitForFunction(() => document.getElementsByClassName('footerBtn').length > 0 || !!document.getElementById('newsLanding'))
+		await this._page.waitForFunction(() => document.getElementsByClassName('footerBtn').length > 0 || !!document.getElementById('newsLanding') || !!document.getElementById('gotItButtonBtn'))
 
 		const hasFooterButton = await this._page.evaluate(() => document.getElementsByClassName('footerBtn').length > 0)
 		if (hasFooterButton) {
 			await this._clickFooterButton()
+		}
+
+		const hasGotItButton = await this._page.evaluate(() => !!document.getElementById('gotItButtonBtn'))
+		if (hasFooterButton) {
+			await this._clickGitItButton()
 		}
 
 		await this._page.waitForFunction(() => !!document.getElementById('newsLanding'))
@@ -138,6 +144,11 @@ export class Scraper {
 	private async _clickFooterButton() {
 		const page = this._page as puppeteer.Page
 		await page.click('.footerBtn a')
+	}
+
+	private async _clickGitItButton() {
+		const page = this._page as puppeteer.Page
+		await page.click('#gotItButtonBtn')
 	}
 
 	private _isLoggedIn() {

@@ -132,7 +132,7 @@ export class Scraper {
 
 		const hasGotItButton = await this._page.evaluate(() => !!document.getElementById('gotItButtonBtn'))
 		if (hasFooterButton) {
-			await this._clickGitItButton()
+			await this._clickGotItButton()
 		}
 
 		await this._page.waitForFunction(() => !!document.getElementById('newsLanding'))
@@ -146,7 +146,7 @@ export class Scraper {
 		await page.click('.footerBtn a')
 	}
 
-	private async _clickGitItButton() {
+	private async _clickGotItButton() {
 		const page = this._page as puppeteer.Page
 		await page.click('#gotItButtonBtn')
 	}

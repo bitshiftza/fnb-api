@@ -1,5 +1,5 @@
 import moment, { Moment } from 'moment'
-import puppeteer from 'puppeteer'
+import { Browser, Page, launch } from 'puppeteer'
 import { ApiOptions } from '../api/fnb-api'
 import { Account } from '../models/account'
 import scrapeAccounts from './scrape-accounts'
@@ -10,8 +10,8 @@ import { Cache } from './cache'
 export class Scraper {
 	private _loginDate: Moment | undefined
 	private _options: ApiOptions
-	private _browser: puppeteer.Browser | undefined
-	private _page: puppeteer.Page | undefined
+	private _browser: Browser | undefined
+	private _page: Page | undefined
 	private _cache: Cache
 
 	constructor(options: ApiOptions) {
@@ -89,9 +89,9 @@ export class Scraper {
 		}
 	}
 
-	private async _getLoggedInPage(): Promise<puppeteer.Page> {
+	private async _getLoggedInPage(): Promise<Page> {
 		if (this._isLoggedIn()) {
-			return this._page as puppeteer.Page
+			return this._page as Page
 		}
 
 		return this._login()
@@ -102,7 +102,7 @@ export class Scraper {
 			this.close()
 		}
 
-		this._browser = await puppeteer.launch(this._options.puppeteerOptions || {})
+		this._browser = await launch(this._options.puppeteerOptions || {})
 		this._page = await this._browser.newPage()
 		this._page.setViewport({ width: 1280, height: 720 })
 
@@ -131,7 +131,7 @@ export class Scraper {
 		}
 
 		const hasGotItButton = await this._page.evaluate(() => !!document.getElementById('gotItButtonBtn'))
-		if (hasFooterButton) {
+		if (hasGotItButton) {
 			await this._clickGotItButton()
 		}
 
@@ -142,12 +142,12 @@ export class Scraper {
 	}
 
 	private async _clickFooterButton() {
-		const page = this._page as puppeteer.Page
+		const page = this._page as Page
 		await page.click('.footerBtn a')
 	}
 
 	private async _clickGotItButton() {
-		const page = this._page as puppeteer.Page
+		const page = this._page as Page
 		await page.click('#gotItButtonBtn')
 	}
 
@@ -156,7 +156,7 @@ export class Scraper {
 			return false
 		}
 
-		if ((this._page as puppeteer.Page).isClosed()) {
+		if ((this._page as Page).isClosed()) {
 			return true
 		}
 

@@ -1,4 +1,4 @@
-import { Page, SerializableOrJSHandle } from 'puppeteer'
+import { Page } from 'puppeteer'
 import { Account } from '../models/account'
 
 export const navigateToMyBankAccounts = async (page: Page) => {
@@ -41,7 +41,7 @@ export const navigateToAccount = async (page: Page, account: Account, tab: strin
 		/* tslint:enable */
 
 		return null
-	}, account as unknown as SerializableOrJSHandle)
+	}, account)
 
 	if (accountId === null) {
 		throw new Error('Could not find account to navigate to')

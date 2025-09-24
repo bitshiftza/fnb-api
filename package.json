@@ -25,7 +25,7 @@
   ],
   "dependencies": {
     "moment": "^2.24.0",
-    "puppeteer": "^19.4.1"
+    "puppeteer": "^24.22.2"
   },
   "devDependencies": {
     "@types/jquery": "^3.5.16",
